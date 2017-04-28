@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:300,300i,700,700i|Roboto:300,300i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="css/react.css">
+    <script src="https://unpkg.com/react@latest/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@latest/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel" data-presets="es2015,stage-2,react" data-plugins="transform-class-properties">
+    ( function() {
+
+        /**
+         *  Hello Functional Component
+         *
+         *  simple react functional component to show how
+         *  react works without JSX
+         *
+         *  @param   {Object} props the props that are passed to the component
+         *
+         *  @returns {Object}       react element with children
+         */
+        const Hello = ( props ) =>
+        {
+            return (
+                React.createElement(
+                    // element type
+                    'div',
+
+                    // element props:
+                    {
+                        className : 'myComponent',
+                    },
+
+                    // element children:
+                    React.createElement(
+                        'h1',
+                        null,
+                        props.title
+                    ),
+                    React.createElement(
+                        'div',
+                        {
+                            key         : 'content',
+                            className   : 'wrapper',
+                        },
+                        React.createElement(
+                            'h2',
+                            { className : 'subline' },
+                            props.subline
+                        ),
+                        React.createElement(
+                            'p',
+                            { className : 'content' },
+                            props.content
+                        )
+                    ),
+                )
+            );
+        }
+
+
+        ReactDOM.render(
+            React.createElement(
+                Hello,
+                {
+                    title : 'hello styla,',
+                    subline : 'welcome to react!',
+                    content : 'some examples of react.',
+                }
+            ),
+            document.querySelector( '#root' )
+        );
+
+    }() )
+    </script>
+</body>
+</html>

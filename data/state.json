@@ -1,0 +1,21 @@
+{
+    "title" : "loaded List of things",
+    "list" : [
+        {
+            "id": 100,
+            "content" : "Lorem ipsum dolor sit amet,"
+        },
+        {
+            "id": 101,
+            "content" : "consectetuer adipiscing elit"
+        },
+        {
+            "id": 102,
+            "content" : "Aenean massa"
+        },
+        {
+            "id": 103,
+            "content" : "Nullam dictum felis eu pede "
+        }
+    ]
+}

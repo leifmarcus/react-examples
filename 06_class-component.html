@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:300,300i,700,700i|Roboto:300,300i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="css/react.css">
+    <script src="https://unpkg.com/react@latest/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@latest/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel" data-presets="es2015,stage-2,react" data-plugins="transform-class-properties">
+    ( function() {
+
+
+        /**
+         *  MyButton
+         *
+         *  React function component for stateless components
+         *
+         *  @param {Object} props   props that are passed to the component
+         *
+         *  @return {Object}        React Element Object
+         */
+        class MyComponent extends React.Component
+        {
+            render()
+            {
+                return (
+                    <div className="my-component">
+                        <h1>{ this.props.title }</h1>
+                    </div>
+                );
+            }
+        }
+
+
+        // render to Component:
+        ReactDOM.render(
+            <MyComponent
+                title="My Class Component"
+            />,
+            document.querySelector( '#root' )
+        );
+
+    }() )
+    </script>
+</body>
+</html>

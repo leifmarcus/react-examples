@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Composition vs Inheritance</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:300,300i,700,700i|Roboto:300,300i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="css/react.css">
+    <script src="https://unpkg.com/react@latest/dist/react.js"></script>
+    <script src="https://unpkg.com/prop-types/prop-types.js"></script>
+    <script src="https://unpkg.com/react-dom@latest/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+<body>
+
+    <div id="root"></div>
+    <script type="text/babel" src="js/readMore.js"></script>
+    <script type="text/babel" data-presets="es2015,stage-2,react" data-plugins="transform-class-properties">
+    ( function() {
+
+        const NoSense = props => <p className="no-sense">{ props.content }</p>;
+
+        /**
+         *  DialogFrame
+         *
+         *  a wrapper element that defines the frame of a dialog box
+         *
+         *  @param {Object} props   props including children
+         */
+        function DialogFrame( props )
+        {
+            console.log(props.children);
+
+            const classNames =
+                [
+                    'Dialog',
+                    props.borderType ? `Dialog-border-${props.borderType}` : false,
+                    props.type       ? `Dialog-${props.type}`              : false,
+                ]
+                .filter( Boolean )
+                .join( ' ' );
+
+
+            return (
+                <div className={ classNames } >
+                    {props.children}
+                </div>
+            );
+        }
+
+        /**
+         *  Dialog
+         *
+         *  A component that uses the DialogFrame Component as
+         *
+         *  @param {[type]} props [description]
+         */
+        function Dialog( props )
+        {
+            const htmlContent = {
+                __html : props.content,
+            };
+
+            return (
+                <DialogFrame borderType={ props.borderType } type={ props.type }>
+
+                    <h1 className="Dialog-header">{ props.title }</h1>
+                    <div
+                        className="Dialog-content"
+                        dangerouslySetInnerHTML={ htmlContent }
+                    />
+
+                    {
+                        props.append != null && props.append
+                    }
+
+                </DialogFrame>
+            );
+        }
+
+        // render to Component:
+        ReactDOM.render(
+            (
+                <div>
+                    <h1>Composition vs Inheritance</h1>
+
+                    <Dialog
+                        type="highlight"
+                        borderType="dashed"
+                        title="Highlight Dialog"
+                        content="<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+                            sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
+                            aliquyam erat, sed diam voluptua</p>"
+                    />
+
+                    <Dialog
+                        type="light"
+                        title="Light Dialog"
+                        content="<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+                            sed diam nonumy.</p><p>Eirmod tempor invidunt ut labore et dolore magna
+                            aliquyam erat, sed diam voluptua</p>"
+                        append={ <NoSense content="this has no sense at all" /> }
+                    />
+
+
+                    <ReadMore
+                        url="https://facebook.github.io/react/docs/composition-vs-inheritance.html"
+                        about="Composition vs Inheritance"
+                    />
+                </div>
+            ),
+            document.querySelector( '#root' )
+        );
+
+    }() )
+    </script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Props Validation</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:300,300i,700,700i|Roboto:300,300i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="css/react.css">
+    <script src="https://unpkg.com/react@latest/dist/react.js"></script>
+    <script src="https://unpkg.com/prop-types/prop-types.js"></script>
+    <script src="https://unpkg.com/react-dom@latest/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel" src="js/readMore.js"></script>
+    <script type="text/babel" data-presets="es2015,stage-2,react" data-plugins="transform-class-properties">
+    ( function() {
+
+
+        /**
+         *  MyButton
+         *
+         *  React function component for stateless components
+         *
+         *  @param {Object} props   props that are passed to the component
+         *
+         *  @return {Object}        React Element Object
+         */
+        class MyComponent extends React.Component
+        {
+            /**
+             *  propTypes
+             *
+             *  define how the props are expected
+             *
+             *  @type {Object}
+             */
+            static propTypes = {
+
+                // required string:
+                title : PropTypes.string.isRequired,
+
+                // required object shape:
+                objectShape : PropTypes.shape( {
+                    id : PropTypes.number.isRequired,
+                    name : PropTypes.string.isRequired,
+                } ).isRequired,
+
+                // required react node
+                node : PropTypes.node,
+
+                // one of the defined types
+                onOfType : PropTypes.oneOfType( [
+                    PropTypes.string,
+                    PropTypes.number,
+                    PropTypes.object,
+                ] ),
+
+                // array of types:
+                arrayOf : PropTypes.arrayOf(PropTypes.number),
+
+                // required function
+                requiredFunc : PropTypes.func.isRequired,
+            }
+
+            /**
+             *  defaultProps
+             *
+             *  define default values for the props here
+             *
+             *  @type {Object}
+             */
+            static defaultProps = {
+                title : 'Props Validation (default)',
+                objectShape : {
+                    id   : 123,
+                    name : 'test'
+                },
+                node : React.createElement( 'div' ),
+                onOfType : 'string',
+                arrayOf : [ 1, 2, 3 ],
+                requiredFunc : () => {},
+            }
+
+            render()
+            {
+                return (
+                    <div>
+                        <h1>{ this.props.title }</h1>
+                        <pre>this.props = { JSON.stringify( this.props, null, 2 ) }</pre>
+
+                        <ReadMore url="https://facebook.github.io/react/docs/typechecking-with-proptypes.html" />
+                    </div>
+                );
+            }
+        }
+
+        // render to Component:
+        ReactDOM.render(
+            <MyComponent
+                title="Props Validation"
+                objectShape={ {
+                    id      : 123,
+                    name    : 1, // <-- this will fail, it is expected to be a string
+                } }
+                arrayOf={ [ 'string', 'string' ] } // <-- fail because it expects a numbered array
+            />,
+            document.querySelector( '#root' )
+        );
+
+    }() )
+    </script>
+</body>
+</html>

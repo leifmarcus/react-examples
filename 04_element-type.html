@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:300,300i,700,700i|Roboto:300,300i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="css/react.css">
+    <script src="https://unpkg.com/react@latest/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@latest/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel" data-presets="es2015,stage-2,react" data-plugins="transform-class-properties">
+    ( function() {
+
+
+        /**
+         *  MyComponent
+         *
+         *  simple functional component that returns a div with text.
+         *
+         *  @returns {Object}       React element object
+         */
+        const MyComponent = () => <div>my really simple react component</div>;
+
+
+        /**
+         *  list of components
+         *
+         *  using dot notation to create an element from a list of components.
+         *  First letter needs to be capitalized.
+         *
+         *  @type {Object}
+         */
+        const Components = {
+            First : MyComponent,
+            Second()
+            {
+                return <div>Second</div>;
+            }
+        };
+
+
+
+        ReactDOM.render(
+            <div>
+
+                <MyComponent />
+
+                <div>html DIV element</div>
+
+                <Components.First />
+
+                <Components.Second />
+
+            </div>,
+            document.querySelector( '#root' )
+        );
+
+    }() )
+    </script>
+</body>
+</html>

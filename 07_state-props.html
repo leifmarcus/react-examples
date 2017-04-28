@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:300,300i,700,700i|Roboto:300,300i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="css/react.css">
+    <script src="https://unpkg.com/react@latest/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@latest/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel" data-presets="es2015,stage-2,react" data-plugins="transform-class-properties">
+    ( function() {
+
+
+        /**
+         *  MyButton
+         *
+         *  React function component for stateless components
+         *
+         *  @param {Object} props   props that are passed to the component
+         *
+         *  @return {Object}        React Element Object
+         */
+        class MyComponent extends React.Component
+        {
+            constructor( props )
+            {
+                // run super to run constructor on React.Component
+                super( props );
+
+                // set initial state
+                this.state = {
+                    ui      : 'default',
+                    title   : this.props.title,
+                    content : this.props.content,
+                };
+
+                /**
+                 *  // Don't do:
+                 *
+                 *  this.state = this.props
+                 *  this.state.ui = 'default';
+                 *
+                 *  // because it will make the props mutable
+                 *
+                 *  const a = { test : '1' }
+                 *  const b = a;
+                 *
+                 *  // a === b --> true
+                 *
+                 *  const c = { test : a.test }
+                 *  // const c = Object.assign( {}, a ) works the same way
+                 *
+                 *  // a === b --> false
+                 */
+            }
+
+            render()
+            {
+                return (
+                    <div className="my-component">
+                        <h1 onClick={ this.handleHeaderClick }>{ this.state.title }</h1>
+                        <p
+                            onClick={ this.handleContentClick }
+                            className={ `is-${this.state.ui}` }
+                        >
+                            { this.state.content }
+                        </p>
+                    </div>
+                );
+            }
+
+            /**
+             *  handleHeaderClick
+             *
+             *  naming convention in react: handle<Event> for event handlers
+             *
+             *  = () => binds the context to the MyComponent context
+             */
+            handleHeaderClick = () =>
+            {
+                // setState( Object );
+                this.setState( {
+                    title : 'changed title',
+                } );
+            }
+
+            /**
+             *  handleContentClick
+             */
+            handleContentClick = () =>
+            {
+                // setState( callbackFunc )
+                this.setState( prevState =>
+                {
+                    return {
+                        content : 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.',
+                        ui      : 'changed',
+                    };
+                } );
+            }
+        }
+
+
+        // render to Component:
+        ReactDOM.render(
+            <MyComponent
+                title="My Title"
+                content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
+            />,
+            document.querySelector( '#root' )
+        );
+
+    }() )
+    </script>
+</body>
+</html>

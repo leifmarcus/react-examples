@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Props Validation</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:300,300i,700,700i|Roboto:300,300i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="css/react.css">
+    <script src="https://unpkg.com/react@latest/dist/react.js"></script>
+    <script src="https://unpkg.com/prop-types/prop-types.js"></script>
+    <script src="https://unpkg.com/react-dom@latest/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+<body>
+
+    <div id="root"></div>
+    <script type="text/babel" src="js/readMore.js"></script>
+    <script type="text/babel" data-presets="es2015,stage-2,react" data-plugins="transform-class-properties">
+    ( function() {
+
+
+        /**
+         *  OtherComponent
+         *
+         *  a simple component to show how refs return a component in react
+         */
+        class OtherComponent extends React.Component
+        {
+            render() {
+                return <input type="text" placeholder={ this.props.placeholderText } />
+            }
+        }
+
+
+        /**
+         *  ShowRefsComponent
+         *
+         *  main component to show how refs work in react
+         */
+        class ShowRefsComponent extends React.Component
+        {
+            state = {
+                value : 'textfield value'
+            }
+
+            componentDidMount()
+            {
+                console.log( this.inputNode );      // --> the wrapper node
+                console.log( this.otherComponent ); // --> the React Element of other
+
+                this.inputNode.focus();
+            }
+
+            componentDidUpdate( prevProps, prevState)
+            {
+                console.log('prevState.value:  ', prevState.value, '\nthis.state.value: ', this.state.value)
+            }
+
+            handleChange = () =>
+            {
+                this.setState( {
+                    value : this.inputNode.value,
+                } );
+            }
+
+            render()
+            {
+                return(
+                    <div className="input-refs">
+                        <OtherComponent
+                            ref={ other => this.otherComponent = other }
+                            placeholderText="other component"
+                        />
+                        <br/>
+                        <input
+                            type="text"
+                            ref={ input => this.inputNode = input }
+                            placeholder="input component"
+                            value={ this.state.value }
+                            onChange={ this.handleChange }
+                        />
+
+                        <ReadMore url="https://facebook.github.io/react/docs/refs-and-the-dom.html" />
+                    </div>
+                );
+            }
+        }
+
+        // render to Component:
+        ReactDOM.render(
+            <ShowRefsComponent />,
+            document.querySelector( '#root' )
+        );
+
+    }() )
+    </script>
+</body>
+</html>

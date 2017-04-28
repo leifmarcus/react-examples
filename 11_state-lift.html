@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Lifting up State</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:300,300i,700,700i|Roboto:300,300i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="css/react.css">
+    <script src="https://unpkg.com/react@latest/dist/react.js"></script>
+    <script src="https://unpkg.com/prop-types/prop-types.js"></script>
+    <script src="https://unpkg.com/react-dom@latest/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+<body>
+
+    <div id="root"></div>
+    <script type="text/babel" src="js/readMore.js"></script>
+    <script type="text/babel" data-presets="es2015,stage-2,react" data-plugins="transform-class-properties">
+    ( function() {
+
+
+
+        function InputField( props )
+        {
+            const handleChange = event =>
+            {
+                let inputValue = parseFloat( event.currentTarget.value );
+
+                if ( isNaN( inputValue ) )
+                {
+                    inputValue = 0;
+                }
+
+                props.onNumberChange( inputValue );
+            }
+
+            return (
+                <input
+                    className="input-field state-lift-input"
+                    onChange={ handleChange }
+                    type="text"
+                    placeholder={ props.placeholderText }
+                />
+            );
+        }
+
+
+        /**
+         *  StateComponent
+         *
+         *  this component handles the state of
+         */
+        class AddComponent extends React.Component
+        {
+            /**
+             *  initial state
+             *
+             *  @type {Object}
+             */
+            state = {
+                numberA : 0,
+                numberB : 0,
+            }
+
+            /**
+             *  change input for number a
+             *
+             *  @param   {Number} value     a number that was entered in the subcomponent
+             */
+            changeInputA = ( value ) =>
+            {
+                this.setState( { numberA : value } );
+            }
+
+            /**
+             *  change input for number b
+             *
+             *  @param   {Number} value     a number that was entered in the subcomponent
+             */
+            changeInputB = ( value ) =>
+            {
+                this.setState( { numberB : value } );
+            }
+
+            render()
+            {
+                const { numberA, numberB } = this.state;
+
+                return (
+                    <div className="state-lift-component">
+                        <h1>Lifting State Up</h1>
+
+                        <InputField
+                            number={ this.state.numberA }
+                            onNumberChange={ this.changeInputA }
+                            placeholderText="Number A"
+                        />
+
+                        <span> + </span>
+
+                        <InputField
+                            number={ this.state.numberB }
+                            onNumberChange={ this.changeInputB }
+                            placeholderText="Number B"
+                        />
+
+                        <p>A + B = { numberA + numberB }</p>
+
+                        <ReadMore url="https://facebook.github.io/react/docs/lifting-state-up.html" />
+                    </div>
+                );
+            }
+        }
+
+        // render to Component:
+        ReactDOM.render(
+            <AddComponent />,
+            document.querySelector( '#root' )
+        );
+
+    }() )
+    </script>
+</body>
+</html>
